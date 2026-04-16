@@ -1,0 +1,21 @@
+/* Lists */
+ul, ol {
+  padding-inline-start: calc(var(--spacing) * 1.5);
+}
+
+li { margin-bottom: 0.25rem; }
+li > ul, li > ol { margin-top: 0.25rem; margin-bottom: 0; }
+
+dt { font-weight: 600; }
+dd { margin-inline-start: var(--spacing); margin-bottom: 0.5rem; }
+dl dl {
+  margin-inline-start: var(--spacing);
+  padding-inline-start: var(--spacing);
+  border-inline-start: 2px solid var(--dl-border, var(--border));
+}
+
+/* Unstyled list via role */
+ul[role="list"], ol[role="list"] {
+  list-style: none;
+  padding: 0;
+}

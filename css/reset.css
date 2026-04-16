@@ -1,0 +1,46 @@
+/* Minimal reset */
+*, *::before, *::after { box-sizing: border-box; }
+
+* { margin: 0; }
+
+html {
+  font-family: var(--font-sans);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  color: var(--body-color, var(--text));
+  background-color: var(--body-bg, var(--bg));
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  tab-size: 4;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-shadow, var(--focus-ring));
+}
+
+::selection {
+  background: var(--selection-bg, var(--primary));
+  color: var(--selection-color, var(--on-primary));
+}
+
+hr {
+  border: 0;
+  border-top: var(--border-width) solid var(--hr-color, var(--border));
+  margin: calc(var(--spacing) * 2) 0;
+}

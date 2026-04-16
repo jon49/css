@@ -1,0 +1,107 @@
+/* Buttons — includes [role="button"] and submit/reset inputs.
+   Per-element overrides via --btn-*; variants have their own namespaces. */
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+[role="button"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.5em 1em;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.2;
+  text-decoration: none;
+  color: var(--btn-color, var(--on-primary));
+  background: var(--btn-bg, var(--primary));
+  border: var(--border-width) solid var(--btn-border, transparent);
+  border-radius: var(--radius);
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--transition), border-color var(--transition), color var(--transition), transform var(--transition);
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover,
+[role="button"]:hover {
+  background: var(--btn-bg-hover, var(--primary-hover));
+}
+
+button:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+input[type="reset"]:active,
+[role="button"]:active {
+  transform: translateY(1px);
+}
+
+button:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+input[type="reset"]:disabled,
+[role="button"][aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Secondary — subdued surface */
+.secondary,
+[data-variant="secondary"] {
+  color: var(--btn-secondary-color, var(--text));
+  background: var(--btn-secondary-bg, var(--bg-raised));
+  border-color: var(--btn-secondary-border, var(--border-strong));
+}
+.secondary:hover,
+[data-variant="secondary"]:hover {
+  background: var(--btn-secondary-bg-hover, var(--bg-sunken));
+}
+
+/* Outline */
+.outline,
+[data-variant="outline"] {
+  color: var(--btn-outline-color, var(--primary));
+  background: var(--btn-outline-bg, transparent);
+  border-color: var(--btn-outline-border, var(--primary));
+}
+.outline:hover,
+[data-variant="outline"]:hover {
+  background: var(--btn-outline-bg-hover, oklch(from var(--primary) l c h / 0.1));
+}
+
+/* Ghost */
+.ghost,
+[data-variant="ghost"] {
+  color: var(--btn-ghost-color, var(--text));
+  background: var(--btn-ghost-bg, transparent);
+  border-color: transparent;
+}
+.ghost:hover,
+[data-variant="ghost"]:hover {
+  background: var(--btn-ghost-bg-hover, var(--bg-raised));
+}
+
+/* Danger */
+[data-variant="danger"] {
+  color: var(--btn-danger-color, var(--on-primary));
+  background: var(--btn-danger-bg, var(--danger));
+}
+[data-variant="danger"]:hover {
+  background: var(--btn-danger-bg-hover, oklch(from var(--danger) calc(l - 0.05) c h));
+}
+
+/* Link-as-button: strip underline; UA default would re-add it */
+a[role="button"] { text-decoration: none; }
+
+/* Button group */
+.button-group {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+.button-group > * { border-radius: 0; }
+.button-group > :first-child { border-start-start-radius: var(--radius); border-end-start-radius: var(--radius); }
+.button-group > :last-child { border-start-end-radius: var(--radius); border-end-end-radius: var(--radius); }

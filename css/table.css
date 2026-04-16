@@ -1,0 +1,42 @@
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--spacing);
+}
+
+caption {
+  padding: 0.5em;
+  color: var(--caption-color, var(--text-muted));
+  text-align: start;
+  font-size: 0.9em;
+}
+
+th, td {
+  padding: 0.6em 0.75em;
+  text-align: start;
+  border-bottom: var(--border-width) solid var(--table-border, var(--border));
+  vertical-align: baseline;
+}
+
+th {
+  font-weight: 600;
+  color: var(--th-color, var(--text));
+  background: var(--th-bg, var(--bg-raised));
+}
+
+tbody tr:hover {
+  background: var(--tr-hover-bg, var(--bg-raised));
+}
+
+/* Striped via role */
+table[role="grid"] tbody tr:nth-child(even) {
+  background: var(--tr-stripe-bg, var(--bg-sunken));
+}
+
+/* Responsive wrapper: wrap <table> in <div class="scroll"> */
+.scroll {
+  overflow-x: auto;
+  margin-bottom: var(--spacing);
+}
+.scroll > table { margin-bottom: 0; }

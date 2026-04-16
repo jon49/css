@@ -1,0 +1,41 @@
+/* Details / Summary */
+details {
+  border: var(--border-width) solid var(--details-border, var(--border));
+  border-radius: var(--radius);
+  padding: 0.5em var(--spacing);
+  margin-bottom: var(--spacing);
+  color: var(--details-color, inherit);
+  background: var(--details-bg, var(--bg-raised));
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 500;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+summary::-webkit-details-marker { display: none; }
+
+summary::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform var(--transition);
+}
+
+details[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+details[open] > summary {
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: var(--border-width) solid var(--details-divider, var(--border));
+}

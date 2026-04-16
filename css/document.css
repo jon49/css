@@ -1,0 +1,19 @@
+/* Page shell */
+body > header,
+body > main,
+body > footer {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--spacing);
+}
+
+body > header { padding-block: calc(var(--spacing) * 2) var(--spacing); }
+body > main   { padding-block: var(--spacing) calc(var(--spacing) * 4); }
+body > footer {
+  padding-block: var(--spacing) calc(var(--spacing) * 2);
+  color: var(--footer-color, var(--text-muted));
+  border-top: var(--border-width) solid var(--footer-border, var(--border));
+  margin-top: calc(var(--spacing) * 3);
+}
+
+section { margin-block: calc(var(--spacing) * 2); }

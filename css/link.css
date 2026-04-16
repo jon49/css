@@ -1,0 +1,17 @@
+/* Links. Excludes a[role="button"] so link-as-button inherits button styles. */
+a:not([role="button"]) {
+  color: var(--link-color, var(--primary));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color var(--transition);
+}
+
+a:not([role="button"]):hover {
+  color: var(--link-color-hover, var(--primary-hover));
+  text-decoration-thickness: 2px;
+}
+
+a:not([role="button"]):visited {
+  color: var(--link-color-visited, oklch(from var(--primary) calc(l - 0.05) c calc(h - 20)));
+}

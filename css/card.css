@@ -1,0 +1,33 @@
+/* Cards — <article> or .card */
+article,
+.card {
+  color: var(--card-color, inherit);
+  background: var(--card-bg, var(--bg-raised));
+  border: var(--border-width) solid var(--card-border, var(--border));
+  border-radius: var(--radius);
+  padding: calc(var(--spacing) * 1.25);
+  margin-bottom: var(--spacing);
+  box-shadow: var(--card-shadow, var(--shadow));
+}
+
+article > header,
+.card > header {
+  margin: calc(var(--spacing) * -1.25) calc(var(--spacing) * -1.25) var(--spacing);
+  padding: var(--spacing) calc(var(--spacing) * 1.25);
+  color: var(--card-header-color, inherit);
+  background: var(--card-header-bg, var(--bg-sunken));
+  border-bottom: var(--border-width) solid var(--card-header-border, var(--border));
+  border-start-start-radius: var(--radius);
+  border-start-end-radius: var(--radius);
+}
+
+article > footer,
+.card > footer {
+  margin: var(--spacing) calc(var(--spacing) * -1.25) calc(var(--spacing) * -1.25);
+  padding: var(--spacing) calc(var(--spacing) * 1.25);
+  color: var(--card-footer-color, inherit);
+  background: var(--card-footer-bg, var(--bg-sunken));
+  border-top: var(--border-width) solid var(--card-footer-border, var(--border));
+  border-end-start-radius: var(--radius);
+  border-end-end-radius: var(--radius);
+}

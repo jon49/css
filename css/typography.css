@@ -1,0 +1,49 @@
+/* Headings & prose */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 600;
+  margin-top: calc(var(--spacing) * 2);
+  margin-bottom: var(--spacing);
+  text-wrap: balance;
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.375rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; color: var(--h6-color, var(--text-muted)); }
+
+p, ul, ol, dl, blockquote, figure {
+  margin-bottom: var(--spacing);
+  text-wrap: pretty;
+}
+
+small { color: var(--small-color, var(--text-muted)); font-size: 0.875em; }
+
+strong, b { font-weight: 600; }
+
+abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+mark {
+  background: var(--mark-bg, oklch(from var(--warning) l c h / 0.4));
+  color: var(--mark-color, inherit);
+  padding: 0 0.2em;
+  border-radius: 2px;
+}
+
+blockquote {
+  border-left: 3px solid var(--quote-border, var(--border-strong));
+  padding-inline-start: var(--spacing);
+  color: var(--quote-color, var(--text-muted));
+  font-style: italic;
+}
+
+figcaption {
+  font-size: 0.875em;
+  color: var(--figcaption-color, var(--text-muted));
+  margin-top: 0.5rem;
+}
