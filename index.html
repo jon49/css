@@ -5,20 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CSS — a modern CSS framework</title>
 
-  <!-- Each component in its own file. Order matters: variables → reset → element rules. -->
-  <link rel="stylesheet" href="./css/variables.css">
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/document.css">
-  <link rel="stylesheet" href="./css/typography.css">
-  <link rel="stylesheet" href="./css/link.css">
-  <link rel="stylesheet" href="./css/list.css">
-  <link rel="stylesheet" href="./css/button.css">
-  <link rel="stylesheet" href="./css/form.css">
-  <link rel="stylesheet" href="./css/table.css">
-  <link rel="stylesheet" href="./css/code.css">
-  <link rel="stylesheet" href="./css/nav.css">
-  <link rel="stylesheet" href="./css/details.css">
-  <link rel="stylesheet" href="./css/card.css">
+  <!-- Each component in its own file. Numeric prefix preserves bundle order. -->
+  <link rel="stylesheet" href="./css/000-variables.css">
+  <link rel="stylesheet" href="./css/010-reset.css">
+  <link rel="stylesheet" href="./css/020-document.css">
+  <link rel="stylesheet" href="./css/030-typography.css">
+  <link rel="stylesheet" href="./css/040-link.css">
+  <link rel="stylesheet" href="./css/050-list.css">
+  <link rel="stylesheet" href="./css/060-button.css">
+  <link rel="stylesheet" href="./css/070-form.css">
+  <link rel="stylesheet" href="./css/080-table.css">
+  <link rel="stylesheet" href="./css/090-code.css">
+  <link rel="stylesheet" href="./css/100-nav.css">
+  <link rel="stylesheet" href="./css/110-details.css">
+  <link rel="stylesheet" href="./css/120-card.css">
+  <link rel="stylesheet" href="./css/130-container.css">
+  <link rel="stylesheet" href="./css/140-group.css">
+  <link rel="stylesheet" href="./css/150-dropdown.css">
+  <link rel="stylesheet" href="./css/160-progress.css">
+  <link rel="stylesheet" href="./css/170-loading.css">
+  <link rel="stylesheet" href="./css/180-dialog.css">
+  <link rel="stylesheet" href="./css/190-tooltip.css">
+  <link rel="stylesheet" href="./css/200-utilities.css">
 
   <style>
     /* Demo-only styles (not part of the framework bundle). */
@@ -269,6 +277,78 @@
     </section>
 
     <section>
+      <h2>Input groups</h2>
+      <div role="search">
+        <input type="search" placeholder="Search…">
+        <button type="button">Go</button>
+      </div>
+      <div role="group">
+        <input type="email" placeholder="you@example.com">
+        <button type="button">Subscribe</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Dropdown</h2>
+      <details class="dropdown">
+        <summary>Choose an option</summary>
+        <ul>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Sign out</a></li>
+        </ul>
+      </details>
+    </section>
+
+    <section>
+      <h2>Progress</h2>
+      <label>Determinate <progress value="65" max="100"></progress></label>
+      <label>Indeterminate <progress></progress></label>
+    </section>
+
+    <section>
+      <h2>Loading</h2>
+      <button type="button" aria-busy="true">Saving…</button>
+      <p aria-busy="true">Fetching data</p>
+    </section>
+
+    <section>
+      <h2>Dialog</h2>
+      <button type="button" id="openDialog">Open dialog</button>
+      <dialog id="demoDialog">
+        <header>
+          <strong>Confirm action</strong>
+          <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+        </header>
+        <p>Native <code>&lt;dialog&gt;</code> with backdrop, animation, and form-method close.</p>
+        <footer>
+          <form method="dialog">
+            <button type="submit" class="secondary">Cancel</button>
+            <button type="submit">OK</button>
+          </form>
+        </footer>
+      </dialog>
+    </section>
+
+    <section>
+      <h2>Tooltip</h2>
+      <p>
+        Hover or focus a term: a <a href="#" data-tooltip="Top placement">linked term</a>,
+        a <span data-tooltip="Bottom placement" data-placement="bottom" tabindex="0">bottom one</span>,
+        or a <span data-tooltip="Left placement" data-placement="left" tabindex="0">left one</span>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Grid</h2>
+      <div class="grid">
+        <div class="card"><p>One</p></div>
+        <div class="card"><p>Two</p></div>
+        <div class="card"><p>Three</p></div>
+      </div>
+    </section>
+
+    <section>
       <h2>Code</h2>
 <pre><code>:root {
   --hue: 250;
@@ -424,6 +504,10 @@
     });
 
     applyColors();
+
+    // Dialog demo
+    const dialog = document.getElementById('demoDialog');
+    document.getElementById('openDialog').addEventListener('click', () => dialog.showModal());
   </script>
 </body>
 </html>

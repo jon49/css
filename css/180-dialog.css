@@ -1,0 +1,73 @@
+/* Native <dialog>. Use dialog.showModal() to open; the ::backdrop styles the scrim. */
+dialog {
+  margin: auto;
+  padding: calc(var(--spacing) * 1.25);
+  color: var(--dialog-color, inherit);
+  background: var(--dialog-bg, var(--bg-raised));
+  border: var(--border-width) solid var(--dialog-border, var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--dialog-shadow, var(--shadow));
+  max-width: min(90vw, 480px);
+  max-height: 90dvh;
+  overflow: auto;
+}
+
+dialog::backdrop {
+  background: oklch(0% 0 0 / 0.4);
+  backdrop-filter: blur(2px);
+}
+
+dialog[open] {
+  animation: dialog-in 150ms ease-out;
+}
+dialog[open]::backdrop {
+  animation: dialog-fade 150ms ease-out;
+}
+
+dialog > header,
+dialog > footer {
+  margin: calc(var(--spacing) * -1.25) calc(var(--spacing) * -1.25) var(--spacing);
+  padding: var(--spacing) calc(var(--spacing) * 1.25);
+  background: var(--dialog-header-bg, var(--bg-sunken));
+  border-bottom: var(--border-width) solid var(--border);
+  border-start-start-radius: var(--radius);
+  border-start-end-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing);
+}
+
+dialog > footer {
+  margin: var(--spacing) calc(var(--spacing) * -1.25) calc(var(--spacing) * -1.25);
+  border-bottom: none;
+  border-top: var(--border-width) solid var(--border);
+  border-radius: 0 0 var(--radius) var(--radius);
+  justify-content: flex-end;
+}
+
+/* Close button — <button class="close" aria-label="Close"> or <form method="dialog"><button>×</button></form> */
+dialog .close,
+dialog button[aria-label="Close"] {
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  padding: 0.25em;
+  font-size: 1.5em;
+  line-height: 1;
+  cursor: pointer;
+}
+dialog .close:hover { color: var(--text); background: transparent; }
+
+@keyframes dialog-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes dialog-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog[open], dialog[open]::backdrop { animation: none; }
+}
