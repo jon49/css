@@ -15,6 +15,16 @@ nav ul {
   flex-wrap: wrap;
 }
 
+[role="navigation"] {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing);
+  flex-wrap: wrap;
+}
+[role="navigation"]:has(ul) {
+  justify-content: space-between;
+}
+
 nav a {
   text-decoration: none;
   color: var(--nav-link-color, var(--text));

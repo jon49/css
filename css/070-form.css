@@ -98,6 +98,12 @@ input[type="range"] {
 
 /* Fieldset */
 fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-inline-size: 0;
+}
+fieldset:has(> legend) {
   border: var(--border-width) solid var(--fieldset-border, var(--border));
   border-radius: var(--radius);
   padding: var(--spacing);

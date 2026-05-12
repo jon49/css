@@ -3,6 +3,8 @@
 
 * { margin: 0; }
 
+[hidden] { display: none !important; }
+
 html {
   font-family: var(--font-sans);
   font-size: var(--font-size);
