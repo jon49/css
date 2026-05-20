@@ -34,7 +34,7 @@
   --pico-primary-hover-border: var(--pico-primary-hover-background);
   --pico-primary-hover-underline: var(--pico-primary-hover);
   --pico-primary-focus: oklch(calc(var(--accent-l) - 0.23) var(--accent-c) var(--accent-h) / 0.5);
-  --pico-primary-inverse: #000;
+  --pico-primary-inverse: oklch(clamp(0, (0.62 - var(--accent-l)) * 100, 1) 0 0);
   --pico-secondary: #5d6b89;
   --pico-secondary-background: #525f7a;
   --pico-secondary-border: var(--pico-secondary-background);
@@ -168,7 +168,7 @@
     --pico-primary-hover-border: var(--pico-primary-hover-background);
     --pico-primary-hover-underline: var(--pico-primary-hover);
     --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
-    --pico-primary-inverse: #000;
+    --pico-primary-inverse: oklch(clamp(0, (0.62 - var(--accent-l)) * 100, 1) 0 0);
     --pico-secondary: #969eaf;
     --pico-secondary-background: #525f7a;
     --pico-secondary-border: var(--pico-secondary-background);
@@ -307,7 +307,7 @@
   --pico-primary-hover-border: var(--pico-primary-hover-background);
   --pico-primary-hover-underline: var(--pico-primary-hover);
   --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
-  --pico-primary-inverse: #000;
+  --pico-primary-inverse: oklch(clamp(0, (0.62 - var(--accent-l)) * 100, 1) 0 0);
   --pico-secondary: #969eaf;
   --pico-secondary-background: #525f7a;
   --pico-secondary-border: var(--pico-secondary-background);
