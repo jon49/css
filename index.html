@@ -1,513 +1,1119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CSS — a modern CSS framework</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pico CSS — split demo</title>
 
-  <!-- Each component in its own file. Numeric prefix preserves bundle order. -->
-  <link rel="stylesheet" href="./css/000-variables.css">
-  <link rel="stylesheet" href="./css/010-reset.css">
-  <link rel="stylesheet" href="./css/020-document.css">
-  <link rel="stylesheet" href="./css/030-typography.css">
-  <link rel="stylesheet" href="./css/040-link.css">
-  <link rel="stylesheet" href="./css/050-list.css">
-  <link rel="stylesheet" href="./css/060-button.css">
-  <link rel="stylesheet" href="./css/070-form.css">
-  <link rel="stylesheet" href="./css/080-table.css">
-  <link rel="stylesheet" href="./css/090-code.css">
-  <link rel="stylesheet" href="./css/100-nav.css">
-  <link rel="stylesheet" href="./css/110-details.css">
-  <link rel="stylesheet" href="./css/120-card.css">
-  <link rel="stylesheet" href="./css/130-container.css">
-  <link rel="stylesheet" href="./css/140-group.css">
-  <link rel="stylesheet" href="./css/150-dropdown.css">
-  <link rel="stylesheet" href="./css/160-progress.css">
-  <link rel="stylesheet" href="./css/170-loading.css">
-  <link rel="stylesheet" href="./css/180-dialog.css">
-  <link rel="stylesheet" href="./css/190-tooltip.css">
-  <link rel="stylesheet" href="./css/200-utilities.css">
+    <link rel="stylesheet" href="css/00-header.css" />
+    <link rel="stylesheet" href="css/01-styles.css" />
+    <link rel="stylesheet" href="css/02-color-schemes.css" />
+    <link rel="stylesheet" href="css/03-document.css" />
+    <link rel="stylesheet" href="css/04-landmarks.css" />
+    <link rel="stylesheet" href="css/05-section.css" />
+    <link rel="stylesheet" href="css/06-container.css" />
+    <link rel="stylesheet" href="css/07-grid.css" />
+    <link rel="stylesheet" href="css/08-overflow-auto.css" />
+    <link rel="stylesheet" href="css/09-typography.css" />
+    <link rel="stylesheet" href="css/10-link.css" />
+    <link rel="stylesheet" href="css/11-button.css" />
+    <link rel="stylesheet" href="css/12-table.css" />
+    <link rel="stylesheet" href="css/13-embedded-content.css" />
+    <link rel="stylesheet" href="css/14-code.css" />
+    <link rel="stylesheet" href="css/15-figure.css" />
+    <link rel="stylesheet" href="css/16-misc.css" />
+    <link rel="stylesheet" href="css/17-basics-form-elements.css" />
+    <link rel="stylesheet" href="css/18-checkboxes-radios-switches.css" />
+    <link rel="stylesheet" href="css/19-input-type-color.css" />
+    <link rel="stylesheet" href="css/20-input-type-datetime.css" />
+    <link rel="stylesheet" href="css/21-input-type-file.css" />
+    <link rel="stylesheet" href="css/22-input-type-range.css" />
+    <link rel="stylesheet" href="css/23-input-type-search.css" />
+    <link rel="stylesheet" href="css/24-accordion.css" />
+    <link rel="stylesheet" href="css/25-card.css" />
+    <link rel="stylesheet" href="css/26-dropdown.css" />
+    <link rel="stylesheet" href="css/27-group.css" />
+    <link rel="stylesheet" href="css/28-loading.css" />
+    <link rel="stylesheet" href="css/29-modal.css" />
+    <link rel="stylesheet" href="css/30-nav.css" />
+    <link rel="stylesheet" href="css/31-progress.css" />
+    <link rel="stylesheet" href="css/32-tooltip.css" />
+    <link rel="stylesheet" href="css/33-accessibility.css" />
+    <link rel="stylesheet" href="css/34-reduce-motion.css" />
 
-  <style>
-    /* Demo-only styles (not part of the framework bundle). */
-    .toolbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: oklch(from var(--bg) l c h / 0.9);
-      backdrop-filter: blur(8px);
-      border-bottom: var(--border-width) solid var(--border);
-      padding: 0.5rem var(--spacing);
-      display: flex;
-      align-items: center;
-      gap: var(--spacing);
-      flex-wrap: wrap;
-    }
-    .toolbar fieldset { margin: 0; padding: 0.25em; border: none; display: inline-flex; gap: 0.25em; }
-    .toolbar label { margin: 0; display: inline-flex; align-items: center; gap: 0.25em; font-weight: normal; }
+    <style>
+      :root {
+        --accent-h: 84;
+        --accent-c: 0.18;
+        --accent-l: 0.83;
+      }
 
-    .picker {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: var(--spacing);
-      align-items: center;
-    }
+      /* Light-mode primary palette derived from --accent-h / --accent-c. */
+      [data-theme="light"],
+      :root:has(#theme input[value="light"]:checked),
+      :root:not([data-theme="dark"]):not(:has(#theme input[value="dark"]:checked)),
+      :host(:not([data-theme="dark"])) {
+        --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+        --pico-primary: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h));
+        --pico-primary-hover: oklch(calc(var(--accent-l) - 0.42) calc(var(--accent-c) * 0.55) var(--accent-h));
+        --pico-primary-hover-background: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
+        --pico-primary-focus: oklch(calc(var(--accent-l) - 0.23) var(--accent-c) var(--accent-h) / 0.5);
+        --pico-primary-underline: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h) / 0.5);
+        --pico-primary-inverse: #000;
+      }
 
-    .wheel {
-      --size: 180px;
-      width: var(--size);
-      height: var(--size);
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at center, var(--bg) 0, transparent 45%),
-        conic-gradient(from 90deg,
-          oklch(65% 0.18 0),
-          oklch(65% 0.18 30),
-          oklch(65% 0.18 60),
-          oklch(65% 0.18 90),
-          oklch(65% 0.18 120),
-          oklch(65% 0.18 150),
-          oklch(65% 0.18 180),
-          oklch(65% 0.18 210),
-          oklch(65% 0.18 240),
-          oklch(65% 0.18 270),
-          oklch(65% 0.18 300),
-          oklch(65% 0.18 330),
-          oklch(65% 0.18 360));
-      cursor: crosshair;
-      position: relative;
-      touch-action: none;
-      box-shadow: var(--shadow);
-    }
-    .wheel::after {
-      content: "";
-      position: absolute;
-      width: 14px; height: 14px;
-      border: 2px solid white;
-      border-radius: 50%;
-      box-shadow: 0 0 0 1px black;
-      transform: translate(-50%, -50%);
-      top: calc(50% + var(--wheel-y, 0) * 1px);
-      left: calc(50% + var(--wheel-x, 0) * 1px);
-      pointer-events: none;
-    }
+      /* System-preference auto-dark, suppressed when a #theme input forces light. */
+      @media only screen and (prefers-color-scheme: dark) {
+        :root:not([data-theme]):not(:has(#theme input[value="light"]:checked)):not(:has(#theme input[value="dark"]:checked)),
+        :host(:not([data-theme])) {
+          --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+          --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
+          --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
+          --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
+          --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
+          --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
+          --pico-primary-inverse: #000;
+        }
+      }
 
-    .swatches {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-      gap: 0.25rem;
-    }
-    .swatch {
-      aspect-ratio: 2 / 1;
-      border-radius: var(--radius);
-      border: var(--border-width) solid var(--border);
-      font-size: 0.7rem;
-      padding: 0.25rem;
-      color: var(--text);
-      display: flex;
-      align-items: flex-end;
-    }
+      /* Explicit dark via data-theme or via a #theme input. */
+      [data-theme="dark"],
+      :root:has(#theme input[value="dark"]:checked) {
+        --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+        --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
+        --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
+        --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
+        --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
+        --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
+        --pico-primary-inverse: #000;
+      }
 
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--spacing); }
-  </style>
-</head>
-<body>
+      #theme {
+        display: inline-flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-block-end: 1.5rem;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--pico-muted-border-color);
+        border-radius: var(--pico-border-radius);
+      }
+      #theme legend {
+        padding-inline: 0.25rem;
+        font-size: 0.85em;
+        color: var(--pico-muted-color);
+      }
+      #theme label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin: 0;
+        font-weight: normal;
+      }
+      #theme input[type="radio"] {
+        margin: 0;
+      }
 
-  <div class="toolbar">
-    <strong>CSS</strong>
+      .picker {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: var(--pico-spacing, 1rem);
+        align-items: start;
+      }
+      @media (max-width: 540px) {
+        .picker {
+          grid-template-columns: 1fr;
+          justify-items: center;
+        }
+      }
+      .wheel {
+        --size: 200px;
+        --wheel-x: 0;
+        --wheel-y: 0;
+        inline-size: var(--size);
+        block-size: var(--size);
+        border-radius: 50%;
+        position: relative;
+        cursor: crosshair;
+        touch-action: none;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
+        background:
+          radial-gradient(
+            circle at center,
+            var(--pico-background-color) 0,
+            transparent 45%
+          ),
+          conic-gradient(
+            oklch(65% 0.18 0),
+            oklch(65% 0.18 30),
+            oklch(65% 0.18 60),
+            oklch(65% 0.18 90),
+            oklch(65% 0.18 120),
+            oklch(65% 0.18 150),
+            oklch(65% 0.18 180),
+            oklch(65% 0.18 210),
+            oklch(65% 0.18 240),
+            oklch(65% 0.18 270),
+            oklch(65% 0.18 300),
+            oklch(65% 0.18 330),
+            oklch(65% 0.18 360)
+          );
+      }
+      .wheel::after {
+        content: "";
+        position: absolute;
+        inline-size: 14px;
+        block-size: 14px;
+        border: 2px solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px black;
+        transform: translate(-50%, -50%);
+        inset-block-start: calc(50% + var(--wheel-y) * 1px);
+        inset-inline-start: calc(50% + var(--wheel-x) * 1px);
+        pointer-events: none;
+      }
+      .picker-controls > label {
+        display: block;
+        margin-block-end: 0.5rem;
+      }
+      .picker-controls output {
+        font-family: var(--pico-font-family-monospace);
+        font-size: 0.85em;
+      }
+      .picker-inputs {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.5rem;
+        align-items: center;
+        margin-block-end: 0.75rem;
+      }
+      .picker-inputs input[type="color"] {
+        inline-size: 2.5em;
+        block-size: 2.5em;
+        padding: 0;
+        margin: 0;
+        border: 1px solid var(--pico-muted-border-color);
+        border-radius: var(--pico-border-radius);
+        cursor: pointer;
+        background: none;
+      }
+      .picker-inputs input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+      .picker-inputs input[type="color"]::-webkit-color-swatch,
+      .picker-inputs input[type="color"]::-moz-color-swatch {
+        border: none;
+        border-radius: calc(var(--pico-border-radius) - 2px);
+      }
+      .picker-inputs input[type="text"] {
+        font-family: var(--pico-font-family-monospace);
+        margin: 0;
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 0.25rem;
+      }
+      .swatch {
+        aspect-ratio: 2 / 1;
+        border-radius: var(--pico-border-radius);
+        border: 1px solid var(--pico-muted-border-color);
+        font-size: 0.7rem;
+        padding: 0.25rem 0.4rem;
+        display: flex;
+        align-items: flex-end;
+      }
 
-    <fieldset id="themeForm" aria-label="Theme">
-      <label title="System"><input type="radio" name="theme" value="auto" checked> Auto</label>
-      <label title="Light"><input type="radio" name="theme" value="light"> Light</label>
-      <label title="Dark"><input type="radio" name="theme" value="dark"> Dark</label>
-    </fieldset>
-
-    <span style="flex:1"></span>
-
-    <a href="https://github.com/jon49/css" target="_blank" rel="noopener">GitHub</a>
-    <button id="exportBtn" type="button">Export CSS</button>
-  </div>
-
-  <header>
-    <h1>CSS</h1>
-    <p>A minimal, semantic, <strong>modern</strong> CSS framework. Pico-inspired. OKLCH colors cascade from a single base hue. No classes required for most elements.</p>
-  </header>
-
-  <main>
-
-    <section id="picker">
-      <h2>Color picker</h2>
-      <p>Click the wheel, enter a hex/RGB value, or drag the sliders. All component colors derive from the hue and chroma of the chosen color.</p>
-
-      <div class="picker">
-        <div id="wheel" class="wheel" role="slider" aria-label="Hue" tabindex="0"></div>
-        <div>
-          <label>Hue <output id="hueOut">250</output>°
-            <input id="hueRange" type="range" min="0" max="360" value="250">
-          </label>
-          <label>Chroma <output id="chromaOut">0.08</output>
-            <input id="chromaRange" type="range" min="0" max="0.25" step="0.005" value="0.08">
-          </label>
-
-          <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.5rem; align-items: center; margin-top: 0.5rem;">
-            <input id="colorInput" type="color" value="#4a5bc8" style="width: 2.5em; height: 2.5em; padding: 0; border-radius: var(--radius); cursor: pointer;" aria-label="Pick a color">
-            <input id="rgbInput" type="text" value="#4a5bc8" placeholder="#rrggbb or rgb(r,g,b)" spellcheck="false" style="font-family: var(--font-mono);">
-          </div>
-
-          <div class="swatches" style="margin-top: var(--spacing)">
-            <div class="swatch" style="background: var(--bg)">bg</div>
-            <div class="swatch" style="background: var(--bg-raised)">raised</div>
-            <div class="swatch" style="background: var(--bg-sunken)">sunken</div>
-            <div class="swatch" style="background: var(--primary); color: var(--on-primary)">primary</div>
-            <div class="swatch" style="background: var(--accent); color: var(--on-primary)">accent</div>
-            <div class="swatch" style="background: var(--danger); color: var(--on-primary)">danger</div>
-            <div class="swatch" style="background: var(--success); color: var(--on-primary)">success</div>
-            <div class="swatch" style="background: var(--warning)">warning</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Typography</h2>
-      <h1>Heading 1</h1>
-      <h2>Heading 2</h2>
-      <h3>Heading 3</h3>
-      <h4>Heading 4</h4>
-      <p>A paragraph with <strong>strong</strong>, <em>emphasis</em>, <a href="#">a link</a>, <code>inline code</code>, <kbd>Ctrl</kbd>+<kbd>K</kbd>, and <mark>highlighted text</mark>. <small>Small print.</small></p>
-      <blockquote>A blockquote: simplicity is the ultimate sophistication.</blockquote>
-    </section>
-
-    <section>
-      <h2>Buttons</h2>
-      <div class="grid-2">
-        <div>
-          <button type="button">Primary</button>
-          <button type="button" class="secondary">Secondary</button>
-          <button type="button" class="outline">Outline</button>
-          <button type="button" class="ghost">Ghost</button>
-          <button type="button" data-variant="danger">Danger</button>
-          <button type="button" disabled>Disabled</button>
-        </div>
-        <div>
-          <a href="#" role="button">Link as button</a>
-          <input type="submit" value="Submit input">
-          <div class="button-group">
-            <button type="button" class="secondary">One</button>
-            <button type="button" class="secondary">Two</button>
-            <button type="button" class="secondary">Three</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Forms</h2>
-      <form onsubmit="event.preventDefault()">
-        <label>Email <input type="email" placeholder="you@example.com" required></label>
-        <label>Password <input type="password" placeholder="••••••"></label>
-        <label>Bio <textarea placeholder="Tell us about yourself"></textarea></label>
-        <label>Role
-          <select>
-            <option>Admin</option><option>Editor</option><option>Viewer</option>
-          </select>
-        </label>
-        <label><input type="checkbox"> Subscribe to updates</label>
-        <label><input type="checkbox" role="switch"> Enable feature</label>
-        <fieldset>
-          <legend>Plan</legend>
-          <label><input type="radio" name="plan"> Free</label>
-          <label><input type="radio" name="plan"> Pro</label>
-          <label><input type="radio" name="plan"> Team</label>
-        </fieldset>
-        <label>Volume <input type="range" min="0" max="100" value="50"></label>
-        <button type="submit">Save</button>
-      </form>
-    </section>
-
-    <section>
-      <h2>Tables</h2>
-      <div class="scroll">
-        <table>
-          <caption>Recent orders</caption>
-          <thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td>#1024</td><td>Ada Lovelace</td><td>$42.00</td><td>Paid</td></tr>
-            <tr><td>#1025</td><td>Alan Turing</td><td>$18.50</td><td>Refunded</td></tr>
-            <tr><td>#1026</td><td>Grace Hopper</td><td>$99.00</td><td>Pending</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section>
-      <h2>Cards</h2>
-      <div class="grid-2">
-        <article>
-          <header><strong>Plain article</strong></header>
-          <p>An <code>&lt;article&gt;</code> element renders as a card by default. Use <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> inside for structure.</p>
-          <footer><button type="button" class="secondary">Dismiss</button> <button type="button">OK</button></footer>
-        </article>
-        <div class="card">
-          <p>Or use <code>.card</code> on any element.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Navigation</h2>
+      .builder {
+        margin-block-start: 2rem;
+        padding-block-start: 1.5rem;
+        border-block-start: 1px solid var(--pico-muted-border-color);
+      }
+      .builder-restore {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin-block-end: 1rem;
+      }
+      .builder-restore input {
+        margin: 0;
+        font-family: var(--pico-font-family-monospace);
+        font-size: 0.85em;
+      }
+      .builder-restore button {
+        margin: 0;
+        inline-size: auto;
+        white-space: nowrap;
+      }
+      .builder-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-block-end: 1rem;
+      }
+      .builder-toolbar label {
+        margin: 0;
+      }
+      .builder-toolbar button {
+        margin: 0;
+        inline-size: auto;
+      }
+      .builder-sections {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 0.25rem 1rem;
+      }
+      .builder-sections label {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin: 0;
+        font-weight: normal;
+        font-size: 0.9em;
+      }
+      .builder-sections input {
+        margin: 0;
+      }
+      /* Let the section tooltips wrap instead of running off-screen as the
+         single nowrap line Pico's tooltip defaults to. */
+      .builder-sections label[data-tooltip] {
+        border-block-end: none;
+        cursor: help;
+      }
+      .builder-sections [data-tooltip]::before {
+        width: max-content;
+        max-width: 15rem;
+        white-space: normal;
+        text-align: start;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container">
       <nav>
-        <a href="#" aria-current="page">Home</a>
-        <a href="#">Docs</a>
-        <a href="#">Pricing</a>
-        <a href="#">About</a>
-      </nav>
-    </section>
-
-    <section>
-      <h2>Details</h2>
-      <details>
-        <summary>What is modern CSS?</summary>
-        <p>Nested rules, <code>:has()</code>, <code>light-dark()</code>, <code>oklch()</code>, <code>@container</code>, logical properties, and more.</p>
-      </details>
-      <details open>
-        <summary>How do I customize the color?</summary>
-        <p>Adjust <code>--hue</code> and <code>--chroma</code> on <code>:root</code>. Every component color derives from these.</p>
-      </details>
-    </section>
-
-    <section>
-      <h2>Input groups</h2>
-      <div role="search">
-        <input type="search" placeholder="Search…">
-        <button type="button">Go</button>
-      </div>
-      <div role="group">
-        <input type="email" placeholder="you@example.com">
-        <button type="button">Subscribe</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>Dropdown</h2>
-      <details class="dropdown">
-        <summary>Choose an option</summary>
         <ul>
-          <li><a href="#">Profile</a></li>
-          <li><a href="#">Settings</a></li>
-          <li><a href="#">Sign out</a></li>
+          <li><strong>Pico Demo</strong></li>
         </ul>
-      </details>
-    </section>
+        <ul>
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#forms">Forms</a></li>
+          <li><a href="#components">Components</a></li>
+          <li><a href="#theme-picker">Theme</a></li>
+        </ul>
+      </nav>
+    </header>
 
-    <section>
-      <h2>Progress</h2>
-      <label>Determinate <progress value="65" max="100"></progress></label>
-      <label>Indeterminate <progress></progress></label>
-    </section>
+    <main class="container">
+      <section id="theme-picker">
+        <h2>Theme</h2>
+        <p>
+          Click the wheel, drag the sliders, or enter a hex / RGB value. The
+          chosen hue and chroma cascade through Pico's primary palette via
+          <code>oklch()</code>. The mode below drives light/dark purely from
+          CSS via <code>:has()</code> — no JavaScript, no
+          <code>data-theme</code> needed.
+        </p>
 
-    <section>
-      <h2>Loading</h2>
-      <button type="button" aria-busy="true">Saving…</button>
-      <p aria-busy="true">Fetching data</p>
-    </section>
+        <fieldset id="theme" role="radiogroup" aria-label="Color mode">
+          <legend>Mode</legend>
+          <label>
+            <input type="radio" name="theme-mode" value="auto" checked />
+            Auto
+          </label>
+          <label>
+            <input type="radio" name="theme-mode" value="light" />
+            Light
+          </label>
+          <label>
+            <input type="radio" name="theme-mode" value="dark" />
+            Dark
+          </label>
+        </fieldset>
 
-    <section>
-      <h2>Dialog</h2>
-      <button type="button" id="openDialog">Open dialog</button>
-      <dialog id="demoDialog">
-        <header>
-          <strong>Confirm action</strong>
-          <form method="dialog"><button class="close" aria-label="Close">×</button></form>
-        </header>
-        <p>Native <code>&lt;dialog&gt;</code> with backdrop, animation, and form-method close.</p>
-        <footer>
-          <form method="dialog">
-            <button type="submit" class="secondary">Cancel</button>
-            <button type="submit">OK</button>
-          </form>
-        </footer>
-      </dialog>
-    </section>
+        <div class="picker">
+          <div
+            id="accent-wheel"
+            class="wheel"
+            role="slider"
+            aria-label="Hue"
+            tabindex="0"
+          ></div>
+          <div class="picker-controls">
+            <label>
+              Hue <output id="accent-h-out">84</output>°
+              <input
+                id="accent-h-range"
+                type="range"
+                min="0"
+                max="360"
+                step="1"
+                value="84"
+              />
+            </label>
+            <label>
+              Chroma <output id="accent-c-out">0.180</output>
+              <input
+                id="accent-c-range"
+                type="range"
+                min="0"
+                max="0.3"
+                step="0.005"
+                value="0.18"
+              />
+            </label>
+            <label>
+              Lightness <output id="accent-l-out">0.83</output>
+              <input
+                id="accent-l-range"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value="0.83"
+              />
+            </label>
 
-    <section>
-      <h2>Tooltip</h2>
-      <p>
-        Hover or focus a term: a <a href="#" data-tooltip="Top placement">linked term</a>,
-        a <span data-tooltip="Bottom placement" data-placement="bottom" tabindex="0">bottom one</span>,
-        or a <span data-tooltip="Left placement" data-placement="left" tabindex="0">left one</span>.
-      </p>
-    </section>
+            <div class="picker-inputs">
+              <input
+                id="accent-color"
+                type="color"
+                value="#ffbf00"
+                aria-label="Pick a color"
+              />
+              <input
+                id="accent-hex"
+                type="text"
+                value="#ffbf00"
+                placeholder="#rrggbb or rgb(r,g,b)"
+                spellcheck="false"
+                aria-label="Hex or RGB"
+              />
+            </div>
 
-    <section>
-      <h2>Grid</h2>
-      <div class="grid">
-        <div class="card"><p>One</p></div>
-        <div class="card"><p>Two</p></div>
-        <div class="card"><p>Three</p></div>
-      </div>
-    </section>
+            <div class="swatches">
+              <div
+                class="swatch"
+                style="
+                  background: var(--pico-primary-background);
+                  color: var(--pico-primary-inverse);
+                "
+              >
+                bg
+              </div>
+              <div class="swatch" style="color: var(--pico-primary)">
+                text
+              </div>
+              <div
+                class="swatch"
+                style="
+                  background: var(--pico-primary-hover-background);
+                  color: var(--pico-primary-inverse);
+                "
+              >
+                hover
+              </div>
+              <div class="swatch" style="color: var(--pico-primary-hover)">
+                hover&nbsp;txt
+              </div>
+              <div
+                class="swatch"
+                style="background: var(--pico-primary-focus)"
+              >
+                focus
+              </div>
+              <div
+                class="swatch"
+                style="
+                  border-color: var(--pico-primary);
+                  border-width: 2px;
+                "
+              >
+                border
+              </div>
+            </div>
 
-    <section>
-      <h2>Code</h2>
-<pre><code>:root {
-  --hue: 250;
-  --chroma: 0.08;
-  --primary: light-dark(
-    oklch(55% var(--chroma) var(--hue)),
-    oklch(70% var(--chroma) var(--hue))
-  );
-}</code></pre>
-    </section>
+            <p>
+              <code id="accent-readout">oklch(? ? ?)</code>
+            </p>
+          </div>
+        </div>
 
-  </main>
+        <div class="builder">
+          <h3>Download CSS</h3>
+          <p>
+            Pick the sections you want; the download concatenates them in
+            order, with your chosen color baked in at the top. A config
+            comment is written into the file — paste that line into
+            <em>Restore</em> later to rebuild this exact selection, then tweak
+            from there.
+          </p>
 
-  <footer>
-    <p>Click <strong>Export CSS</strong> in the toolbar to download a single bundle with your chosen hue and chroma baked in.</p>
-  </footer>
+          <div class="builder-restore">
+            <input
+              id="restore-string"
+              type="text"
+              placeholder="Paste a config string here to restore a selection"
+              spellcheck="false"
+              aria-label="Restore from config string"
+            />
+            <button id="restore-btn" type="button" class="secondary outline">
+              Restore
+            </button>
+          </div>
 
-  <script type="module">
-    import { downloadBundle } from './js/build.js';
+          <div class="builder-toolbar">
+            <label>
+              <input type="checkbox" id="select-all" checked /> Select all
+            </label>
+            <button id="download-btn" type="button">Download CSS</button>
+          </div>
 
-    const root = document.documentElement;
-    const wheel = document.getElementById('wheel');
-    const hueRange = document.getElementById('hueRange');
-    const hueOut = document.getElementById('hueOut');
-    const chromaRange = document.getElementById('chromaRange');
-    const chromaOut = document.getElementById('chromaOut');
-    const colorInput = document.getElementById('colorInput');
-    const rgbInput = document.getElementById('rgbInput');
+          <div id="section-list" class="builder-sections"></div>
+        </div>
+      </section>
 
-    let hue = 250, chroma = 0.08;
+      <section id="typography">
+        <hgroup>
+          <h1>Pico CSS — split into sections</h1>
+          <p>Each section of the original <code>pico.css</code> is now a separate file under <code>css/</code>.</p>
+        </hgroup>
 
-    // --- OKLCH <-> sRGB (Björn Ottosson) ---
-    const srgbToLinear = c => (c /= 255, c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
-    const linearToSrgb = c => {
-      c = c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1/2.4) - 0.055;
-      return Math.round(Math.max(0, Math.min(1, c)) * 255);
-    };
-    function rgbToOklch(r, g, b) {
-      const lr = srgbToLinear(r), lg = srgbToLinear(g), lb = srgbToLinear(b);
-      const l = 0.4122214708*lr + 0.5363325363*lg + 0.0514459929*lb;
-      const m = 0.2119034982*lr + 0.6806995451*lg + 0.1073969566*lb;
-      const s = 0.0883024619*lr + 0.2817188376*lg + 0.6299787005*lb;
-      const L_ = Math.cbrt(l), M_ = Math.cbrt(m), S_ = Math.cbrt(s);
-      const L = 0.2104542553*L_ + 0.7936177850*M_ - 0.0040720468*S_;
-      const a = 1.9779984951*L_ - 2.4285922050*M_ + 0.4505937099*S_;
-      const bb = 0.0259040371*L_ + 0.7827717662*M_ - 0.8086757660*S_;
-      const C = Math.sqrt(a*a + bb*bb);
-      let H = Math.atan2(bb, a) * 180 / Math.PI;
-      if (H < 0) H += 360;
-      return { L, C, H };
-    }
-    function oklchToRgb(L, C, H) {
-      const a = C * Math.cos(H * Math.PI / 180);
-      const b = C * Math.sin(H * Math.PI / 180);
-      const l_ = L + 0.3963377774*a + 0.2158037573*b;
-      const m_ = L - 0.1055613458*a - 0.0638541728*b;
-      const s_ = L - 0.0894841775*a - 1.2914855480*b;
-      const l = l_**3, m = m_**3, s = s_**3;
-      return {
-        r: linearToSrgb(+4.0767416621*l - 3.3077115913*m + 0.2309699292*s),
-        g: linearToSrgb(-1.2684380046*l + 2.6097574011*m - 0.3413193965*s),
-        b: linearToSrgb(-0.0041960863*l - 0.7034186147*m + 1.7076147010*s),
+        <p>
+          A paragraph with a <a href="#">link</a>, some <strong>bold</strong>,
+          some <em>italic</em>, and <mark>highlighted</mark> text. You can also
+          inline <code>code</code>, <kbd>Ctrl</kbd>+<kbd>C</kbd>, or
+          <abbr title="Cascading Style Sheets">CSS</abbr>.
+        </p>
+
+        <blockquote>
+          "Minimal CSS framework for semantic HTML."
+          <footer><cite>— Pico CSS</cite></footer>
+        </blockquote>
+
+        <h2>Headings</h2>
+        <h3>Heading level three</h3>
+        <h4>Heading level four</h4>
+        <h5>Heading level five</h5>
+        <h6>Heading level six</h6>
+      </section>
+
+      <section id="components">
+        <h2>Buttons</h2>
+        <p>
+          <button>Primary</button>
+          <button class="secondary">Secondary</button>
+          <button class="contrast">Contrast</button>
+          <button class="outline">Outline</button>
+          <button disabled>Disabled</button>
+        </p>
+
+        <h2>Table</h2>
+        <figure>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Role</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">1</th><td>Ada Lovelace</td><td>Engineer</td><td>Active</td></tr>
+              <tr><th scope="row">2</th><td>Grace Hopper</td><td>Admiral</td><td>Active</td></tr>
+              <tr><th scope="row">3</th><td>Alan Turing</td><td>Mathematician</td><td>Retired</td></tr>
+            </tbody>
+          </table>
+        </figure>
+
+        <h2>Grid</h2>
+        <div class="grid">
+          <article><h3>One</h3><p>A card in a three-column grid.</p></article>
+          <article><h3>Two</h3><p>Cards auto-stack on small screens.</p></article>
+          <article><h3>Three</h3><p>Try resizing the viewport.</p></article>
+        </div>
+
+        <h2>Accordion</h2>
+        <details>
+          <summary>Open me</summary>
+          <p>Accordion content lives here.</p>
+        </details>
+        <details open>
+          <summary>Already open</summary>
+          <p>This one starts open.</p>
+        </details>
+
+        <h2>Dropdown</h2>
+        <details class="dropdown">
+          <summary>Pick a flavor</summary>
+          <ul>
+            <li><a href="#">Vanilla</a></li>
+            <li><a href="#">Chocolate</a></li>
+            <li><a href="#">Strawberry</a></li>
+          </ul>
+        </details>
+
+        <h2>Progress</h2>
+        <progress value="35" max="100"></progress>
+        <progress></progress>
+
+        <h2>Tooltip</h2>
+        <p>
+          Hover this <a href="#" data-tooltip="Hi from a tooltip">link</a>
+          or this <button data-tooltip="Tooltip on button" class="secondary">button</button>.
+        </p>
+
+        <h2>Loading</h2>
+        <p>
+          <button aria-busy="true">Please wait…</button>
+        </p>
+
+        <h2>Modal</h2>
+        <p>
+          <button onclick="document.getElementById('demo-modal').showModal()">
+            Open modal
+          </button>
+        </p>
+        <dialog id="demo-modal">
+          <article>
+            <header>
+              <button
+                aria-label="Close"
+                rel="prev"
+                onclick="document.getElementById('demo-modal').close()"
+              ></button>
+              <p><strong>Hello!</strong></p>
+            </header>
+            <p>This is a native &lt;dialog&gt; styled by Pico.</p>
+          </article>
+        </dialog>
+      </section>
+
+      <section id="forms">
+        <h2>Form elements</h2>
+        <form onsubmit="event.preventDefault()">
+          <label>
+            Name
+            <input type="text" placeholder="Ada Lovelace" />
+          </label>
+
+          <label>
+            Email
+            <input type="email" placeholder="ada@example.com" />
+          </label>
+
+          <label>
+            About you
+            <textarea placeholder="A short bio…"></textarea>
+          </label>
+
+          <div class="grid">
+            <label>
+              Favorite color
+              <input type="color" value="#1095c1" />
+            </label>
+            <label>
+              When?
+              <input type="datetime-local" />
+            </label>
+            <label>
+              Upload
+              <input type="file" />
+            </label>
+          </div>
+
+          <label>
+            Volume
+            <input type="range" min="0" max="100" value="40" />
+          </label>
+
+          <label role="search">
+            <input type="search" placeholder="Search…" />
+            <button type="submit">Go</button>
+          </label>
+
+          <fieldset>
+            <legend>Subscribe to:</legend>
+            <label><input type="checkbox" checked /> Weekly digest</label>
+            <label><input type="checkbox" /> Release notes</label>
+            <label><input type="checkbox" role="switch" /> Beta features</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Plan:</legend>
+            <label><input type="radio" name="plan" checked /> Free</label>
+            <label><input type="radio" name="plan" /> Pro</label>
+            <label><input type="radio" name="plan" /> Team</label>
+          </fieldset>
+
+          <div role="group">
+            <button type="submit">Submit</button>
+            <button type="reset" class="secondary">Reset</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="container">
+      <small>Built with <a href="https://picocss.com">Pico CSS</a>.</small>
+    </footer>
+
+    <script>
+      // --- OKLCH <-> sRGB (Björn Ottosson) ---
+      const srgbToLinear = (c) =>
+        ((c /= 255),
+        c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+      const linearToSrgb = (c) => {
+        c =
+          c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+        return Math.round(Math.max(0, Math.min(1, c)) * 255);
       };
-    }
-    const toHex = (r, g, b) => '#' + [r, g, b].map(n => n.toString(16).padStart(2, '0')).join('');
-    function parseColor(str) {
-      str = str.trim();
-      let m = str.match(/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i);
-      if (m) {
-        let h = m[1];
-        if (h.length === 3) h = h.split('').map(c => c + c).join('');
-        return { r: parseInt(h.slice(0,2), 16), g: parseInt(h.slice(2,4), 16), b: parseInt(h.slice(4,6), 16) };
+      function rgbToOklch(r, g, b) {
+        const lr = srgbToLinear(r),
+          lg = srgbToLinear(g),
+          lb = srgbToLinear(b);
+        const l = 0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb;
+        const m = 0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb;
+        const s = 0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb;
+        const L_ = Math.cbrt(l),
+          M_ = Math.cbrt(m),
+          S_ = Math.cbrt(s);
+        const L = 0.2104542553 * L_ + 0.793617785 * M_ - 0.0040720468 * S_;
+        const a = 1.9779984951 * L_ - 2.428592205 * M_ + 0.4505937099 * S_;
+        const bb = 0.0259040371 * L_ + 0.7827717662 * M_ - 0.808675766 * S_;
+        const C = Math.hypot(a, bb);
+        let H = (Math.atan2(bb, a) * 180) / Math.PI;
+        if (H < 0) H += 360;
+        return { L, C, H };
       }
-      m = str.match(/(\d+)\D+(\d+)\D+(\d+)/);
-      if (m) return { r: +m[1], g: +m[2], b: +m[3] };
-      return null;
-    }
+      function oklchToRgb(L, C, H) {
+        const a = C * Math.cos((H * Math.PI) / 180);
+        const b = C * Math.sin((H * Math.PI) / 180);
+        const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+        const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+        const s_ = L - 0.0894841775 * a - 1.291485548 * b;
+        const l = l_ ** 3,
+          m = m_ ** 3,
+          s = s_ ** 3;
+        return {
+          r: linearToSrgb(
+            4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+          ),
+          g: linearToSrgb(
+            -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+          ),
+          b: linearToSrgb(
+            -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+          ),
+        };
+      }
+      const toHex = (r, g, b) =>
+        "#" +
+        [r, g, b].map((n) => n.toString(16).padStart(2, "0")).join("");
+      function parseColor(str) {
+        str = str.trim();
+        let m = str.match(/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i);
+        if (m) {
+          let h = m[1];
+          if (h.length === 3)
+            h = h
+              .split("")
+              .map((c) => c + c)
+              .join("");
+          return {
+            r: parseInt(h.slice(0, 2), 16),
+            g: parseInt(h.slice(2, 4), 16),
+            b: parseInt(h.slice(4, 6), 16),
+          };
+        }
+        m = str.match(/(\d+)\D+(\d+)\D+(\d+)/);
+        if (m) return { r: +m[1], g: +m[2], b: +m[3] };
+        return null;
+      }
 
-    function applyColors({ syncColorInputs = true } = {}) {
-      root.style.setProperty('--hue', hue);
-      root.style.setProperty('--chroma', chroma);
-      hueOut.value = Math.round(hue);
-      chromaOut.value = chroma.toFixed(3);
-      hueRange.value = hue;
-      chromaRange.value = chroma;
-      // Wheel indicator at ~80% radius.
-      const r = 72;
-      const a = (hue - 90) * Math.PI / 180;
-      wheel.style.setProperty('--wheel-x', Math.cos(a) * r);
-      wheel.style.setProperty('--wheel-y', Math.sin(a) * r);
-      if (syncColorInputs) {
-        const { r: R, g: G, b: B } = oklchToRgb(0.65, chroma, hue);
-        const hex = toHex(R, G, B);
+      const root = document.documentElement;
+      const wheel = document.getElementById("accent-wheel");
+      const hRange = document.getElementById("accent-h-range");
+      const cRange = document.getElementById("accent-c-range");
+      const lRange = document.getElementById("accent-l-range");
+      const hOut = document.getElementById("accent-h-out");
+      const cOut = document.getElementById("accent-c-out");
+      const lOut = document.getElementById("accent-l-out");
+      const colorInput = document.getElementById("accent-color");
+      const hexInput = document.getElementById("accent-hex");
+      const readout = document.getElementById("accent-readout");
+
+      let hue = 84;
+      let chroma = 0.18;
+      // Base lightness of the palette. The background swatch sits exactly at
+      // this value; the other roles are calc() offsets from it.
+      let lightness = 0.83;
+
+      function apply({ syncColorInputs = true } = {}) {
+        root.style.setProperty("--accent-h", hue.toFixed(2));
+        root.style.setProperty("--accent-c", chroma.toFixed(4));
+        root.style.setProperty("--accent-l", lightness.toFixed(4));
+        hRange.value = hue;
+        cRange.value = chroma;
+        lRange.value = lightness;
+        hOut.value = Math.round(hue);
+        cOut.value = chroma.toFixed(3);
+        lOut.value = lightness.toFixed(2);
+        readout.textContent = `oklch(${lightness.toFixed(2)} ${chroma.toFixed(3)} ${hue.toFixed(1)})`;
+
+        // Wheel indicator at ~80% of radius.
+        const size =
+          parseFloat(getComputedStyle(wheel).inlineSize) || 200;
+        const r = size * 0.4;
+        const a = ((hue - 90) * Math.PI) / 180;
+        wheel.style.setProperty("--wheel-x", (Math.cos(a) * r).toFixed(2));
+        wheel.style.setProperty("--wheel-y", (Math.sin(a) * r).toFixed(2));
+
+        if (syncColorInputs) {
+          const { r: R, g: G, b: B } = oklchToRgb(lightness, chroma, hue);
+          const hex = toHex(R, G, B);
+          colorInput.value = hex;
+          hexInput.value = hex;
+        }
+
+        localStorage.setItem(
+          "accent-hc",
+          JSON.stringify({ h: hue, c: chroma, l: lightness }),
+        );
+      }
+
+      function hueFromPointer(e) {
+        const rect = wheel.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const deg =
+          (Math.atan2(e.clientY - cy, e.clientX - cx) * 180) / Math.PI;
+        return (deg + 90 + 360) % 360;
+      }
+
+      let dragging = false;
+      wheel.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        wheel.setPointerCapture(e.pointerId);
+        hue = hueFromPointer(e);
+        apply();
+      });
+      wheel.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        hue = hueFromPointer(e);
+        apply();
+      });
+      wheel.addEventListener("pointerup", () => (dragging = false));
+      wheel.addEventListener("pointercancel", () => (dragging = false));
+      wheel.addEventListener("keydown", (e) => {
+        const step = e.shiftKey ? 10 : 1;
+        if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+          hue = (hue - step + 360) % 360;
+          apply();
+          e.preventDefault();
+        } else if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+          hue = (hue + step) % 360;
+          apply();
+          e.preventDefault();
+        }
+      });
+
+      hRange.addEventListener("input", (e) => {
+        hue = +e.target.value;
+        apply();
+      });
+      cRange.addEventListener("input", (e) => {
+        chroma = +e.target.value;
+        apply();
+      });
+      lRange.addEventListener("input", (e) => {
+        lightness = +e.target.value;
+        apply();
+      });
+
+      function fromRgb(rgb) {
+        if (!rgb) return;
+        const { L, C, H } = rgbToOklch(rgb.r, rgb.g, rgb.b);
+        hue = H;
+        chroma = Math.min(0.3, C);
+        lightness = Math.min(1, Math.max(0, L));
+        apply({ syncColorInputs: false });
+        const hex = toHex(rgb.r, rgb.g, rgb.b);
         colorInput.value = hex;
-        rgbInput.value = hex;
+        hexInput.value = hex;
       }
-    }
+      colorInput.addEventListener("input", (e) =>
+        fromRgb(parseColor(e.target.value)),
+      );
+      hexInput.addEventListener("change", (e) =>
+        fromRgb(parseColor(e.target.value)),
+      );
 
-    function hueFromPointer(e) {
-      const rect = wheel.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const deg = Math.atan2(dy, dx) * 180 / Math.PI;
-      return (deg + 90 + 360) % 360;
-    }
+      // Restore previous pick.
+      try {
+        const saved = JSON.parse(localStorage.getItem("accent-hc") || "null");
+        if (saved && Number.isFinite(saved.h) && Number.isFinite(saved.c)) {
+          hue = saved.h;
+          chroma = saved.c;
+          if (Number.isFinite(saved.l)) lightness = saved.l;
+        }
+      } catch {}
 
-    let dragging = false;
-    wheel.addEventListener('pointerdown', e => {
-      dragging = true;
-      wheel.setPointerCapture(e.pointerId);
-      hue = hueFromPointer(e);
-      applyColors();
-    });
-    wheel.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      hue = hueFromPointer(e);
-      applyColors();
-    });
-    wheel.addEventListener('pointerup', () => dragging = false);
+      // --- CSS builder / download ---------------------------------------
+      const sectionHrefs = [
+        ...document.querySelectorAll('link[rel="stylesheet"][href^="css/"]'),
+      ].map((l) => l.getAttribute("href"));
+      const sectionList = document.getElementById("section-list");
+      const selectAll = document.getElementById("select-all");
+      const downloadBtn = document.getElementById("download-btn");
+      const restoreInput = document.getElementById("restore-string");
+      const restoreBtn = document.getElementById("restore-btn");
 
-    hueRange.addEventListener('input', e => { hue = +e.target.value; applyColors(); });
-    chromaRange.addEventListener('input', e => { chroma = +e.target.value; applyColors(); });
+      const sectionId = (href) =>
+        href.replace(/^css\//, "").replace(/\.css$/, "");
+      const sectionLabel = (href) =>
+        sectionId(href).replace(/^\d+-/, "").replace(/-/g, " ");
 
-    function fromColor(rgb) {
-      if (!rgb) return;
-      const { C, H } = rgbToOklch(rgb.r, rgb.g, rgb.b);
-      hue = +H.toFixed(1);
-      chroma = Math.min(0.25, +C.toFixed(3));
-      applyColors({ syncColorInputs: false });
-      const hex = toHex(rgb.r, rgb.g, rgb.b);
-      colorInput.value = hex;
-      rgbInput.value = hex;
-    }
-    colorInput.addEventListener('input', e => fromColor(parseColor(e.target.value)));
-    rgbInput.addEventListener('change', e => {
-      const rgb = parseColor(e.target.value);
-      if (rgb) fromColor(rgb);
-    });
+      // What each section does and whether it's worth keeping — shown as a
+      // hover tooltip on its checkbox.
+      const sectionInfo = {
+        "00-header":
+          "Charset declaration and the Pico license banner. Negligible size — keep it.",
+        "01-styles":
+          "Core design tokens: every --pico-* variable for fonts, spacing and sizing. Required — every other section depends on it.",
+        "02-color-schemes":
+          "Light/dark color values for the design tokens. Required unless you define your own color palette.",
+        "03-document":
+          "box-sizing reset and responsive root font scaling. Recommended baseline — keep unless you ship your own reset.",
+        "04-landmarks":
+          "Layout and spacing for body, header, main, footer and aside. Keep if you use semantic landmark elements.",
+        "05-section":
+          "Spacing for <section> elements. Keep only if you use <section>.",
+        "06-container":
+          "The .container centered, max-width page wrapper. Keep if you use .container.",
+        "07-grid":
+          "The .grid auto-layout column system. Keep if you use .grid.",
+        "08-overflow-auto":
+          "The .overflow-auto utility class. Tiny — keep only if you use it.",
+        "09-typography":
+          "Headings, paragraphs, lists, blockquotes and inline text. Strongly recommended for any text content.",
+        "10-link":
+          "Styling for links and [role=link]. Recommended whenever you have links.",
+        "11-button":
+          "Buttons and [role=button], including variants. Keep if you use buttons.",
+        "12-table": "Table styling. Keep only if you use tables.",
+        "13-embedded-content":
+          "Sensible defaults for img, video, iframe and svg. Recommended baseline.",
+        "14-code":
+          "Styling for pre, code, kbd and samp. Keep if you display code or keyboard shortcuts.",
+        "15-figure":
+          "Styling for <figure> and <figcaption>. Keep only if you use figures.",
+        "16-misc":
+          "Miscellaneous elements such as <hr>. Tiny — safe to keep.",
+        "17-basics-form-elements":
+          "Inputs, selects, textareas, labels and fieldsets. Required if your page has any forms.",
+        "18-checkboxes-radios-switches":
+          "Custom checkbox, radio and switch styling. Keep if your forms use them.",
+        "19-input-type-color":
+          "Styling for <input type=color>. Keep only if you use color inputs.",
+        "20-input-type-datetime":
+          "Styling for date/time inputs with calendar icons. Keep only if you use them.",
+        "21-input-type-file":
+          "Styling for <input type=file>. Keep only if you use file inputs.",
+        "22-input-type-range":
+          "Styling for <input type=range> sliders. Keep only if you use range inputs.",
+        "23-input-type-search":
+          "Styling for <input type=search> with its icon. Keep only if you use search inputs.",
+        "24-accordion":
+          "Accordion built on <details>. Keep if you use collapsible <details>.",
+        "25-card":
+          "Card styling for <article>. Keep if you use <article> as a card.",
+        "26-dropdown":
+          "Dropdown menus built on details.dropdown. Keep if you use dropdowns.",
+        "27-group":
+          "Button/input groups via [role=group] and [role=search]. Keep if you use them.",
+        "28-loading":
+          "The [aria-busy=true] loading spinner. Keep only if you show busy/loading states.",
+        "29-modal":
+          "Modal dialogs built on <dialog>. Keep if you use modals.",
+        "30-nav":
+          "Styling for <nav> navigation bars. Keep if your page has a nav.",
+        "31-progress":
+          "Styling for <progress> bars. Keep only if you use progress bars.",
+        "32-tooltip":
+          "Tooltips via the data-tooltip attribute. Keep if you use tooltips (this picker does).",
+        "33-accessibility":
+          "Focus rings, cursors and aria state styling. Strongly recommended — don't drop this.",
+        "34-reduce-motion":
+          "Honors the user's prefers-reduced-motion setting. Strongly recommended for accessibility.",
+      };
 
-    // Theme persistence
-    const savedTheme = localStorage.getItem('theme') || 'auto';
-    const radio = document.querySelector(`input[name="theme"][value="${savedTheme}"]`);
-    if (radio) radio.checked = true;
-    document.getElementById('themeForm').addEventListener('change', e => {
-      localStorage.setItem('theme', e.target.value);
-    });
+      for (const href of sectionHrefs) {
+        const id = sectionId(href);
+        const label = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = true;
+        cb.value = href;
+        cb.dataset.id = id;
+        label.append(cb, " " + sectionLabel(href));
+        if (sectionInfo[id]) label.setAttribute("data-tooltip", sectionInfo[id]);
+        sectionList.append(label);
+      }
+      const sectionBoxes = () => [
+        ...sectionList.querySelectorAll('input[type="checkbox"]'),
+      ];
 
-    // Export
-    document.getElementById('exportBtn').addEventListener('click', async () => {
-      await downloadBundle({ hue: Math.round(hue), chroma: +chroma.toFixed(3) });
-    });
+      selectAll.addEventListener("change", () => {
+        for (const cb of sectionBoxes()) cb.checked = selectAll.checked;
+      });
+      sectionList.addEventListener("change", () => {
+        selectAll.checked = sectionBoxes().every((cb) => cb.checked);
+      });
 
-    applyColors();
+      // The accent-color theme block, with the current H/C/L baked in. Kept as
+      // var()-based rules so the downloaded file stays editable.
+      function buildThemeCss(h, c, l) {
+        return `:root {
+  --accent-h: ${(+h).toFixed(2)};
+  --accent-c: ${(+c).toFixed(4)};
+  --accent-l: ${(+l).toFixed(4)};
+}
 
-    // Dialog demo
-    const dialog = document.getElementById('demoDialog');
-    document.getElementById('openDialog').addEventListener('click', () => dialog.showModal());
-  </script>
-</body>
+[data-theme="light"],
+:root:not([data-theme="dark"]) {
+  --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+  --pico-primary: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h));
+  --pico-primary-hover: oklch(calc(var(--accent-l) - 0.42) calc(var(--accent-c) * 0.55) var(--accent-h));
+  --pico-primary-hover-background: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
+  --pico-primary-focus: oklch(calc(var(--accent-l) - 0.23) var(--accent-c) var(--accent-h) / 0.5);
+  --pico-primary-underline: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h) / 0.5);
+  --pico-primary-inverse: #000;
+}
+
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+    --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
+    --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
+    --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
+    --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
+    --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
+    --pico-primary-inverse: #000;
+  }
+}
+
+[data-theme="dark"] {
+  --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+  --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
+  --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
+  --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
+  --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
+  --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
+  --pico-primary-inverse: #000;
+}
+`;
+      }
+
+      function configString(ids) {
+        const all = ids.length === sectionHrefs.length;
+        return `pico-builder v1 | h=${hue.toFixed(2)} c=${chroma.toFixed(
+          4,
+        )} l=${lightness.toFixed(4)} | sections=${
+          all ? "all" : ids.join(",")
+        }`;
+      }
+
+      async function buildCss() {
+        const chosen = sectionBoxes().filter((cb) => cb.checked);
+        if (!chosen.length) {
+          alert("Pick at least one section to download.");
+          return null;
+        }
+        const ids = chosen.map((cb) => cb.dataset.id);
+        const header =
+          `/* ${configString(ids)} */\n` +
+          `/* Generated ${new Date()
+            .toISOString()
+            .slice(0, 10)} — paste the line above into the Restore field ` +
+          `to rebuild this selection. */\n`;
+        const theme =
+          "/* ===== theme (accent color) ===== */\n" +
+          buildThemeCss(hue, chroma, lightness);
+        const parts = await Promise.all(
+          chosen.map(async (cb) => {
+            const res = await fetch(cb.value);
+            if (!res.ok) throw new Error("Could not fetch " + cb.value);
+            const text = (await res.text()).trim();
+            return `/* ===== ${cb.value} ===== */\n` + text;
+          }),
+        );
+        return [header, theme, ...parts].join("\n\n") + "\n";
+      }
+
+      downloadBtn.addEventListener("click", async () => {
+        downloadBtn.setAttribute("aria-busy", "true");
+        try {
+          const css = await buildCss();
+          if (!css) return;
+          const url = URL.createObjectURL(
+            new Blob([css], { type: "text/css" }),
+          );
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "pico.custom.css";
+          a.click();
+          URL.revokeObjectURL(url);
+        } catch (err) {
+          alert(
+            "Build failed: " +
+              err.message +
+              "\n\nThe page must be served over http:// (not opened as a " +
+              "file://) so the CSS sections can be fetched.",
+          );
+        } finally {
+          downloadBtn.removeAttribute("aria-busy");
+        }
+      });
+
+      function restoreFromString(str) {
+        const h = str.match(/h=([\d.]+)/);
+        const c = str.match(/c=([\d.]+)/);
+        const l = str.match(/l=([\d.]+)/);
+        const s = str.match(/sections=([^|*]*)/);
+        if (h && c && Number.isFinite(+h[1]) && Number.isFinite(+c[1])) {
+          hue = +h[1];
+          chroma = +c[1];
+          if (l && Number.isFinite(+l[1])) lightness = +l[1];
+          apply();
+        }
+        if (s) {
+          const raw = s[1].trim();
+          const set =
+            raw === "all"
+              ? null
+              : new Set(
+                  raw
+                    .split(",")
+                    .map((x) => x.trim())
+                    .filter(Boolean),
+                );
+          for (const cb of sectionBoxes())
+            cb.checked = set ? set.has(cb.dataset.id) : true;
+          selectAll.checked = sectionBoxes().every((cb) => cb.checked);
+        }
+        if (!h && !c && !s) alert("No config found in that string.");
+      }
+
+      restoreBtn.addEventListener("click", () => {
+        const v = restoreInput.value.trim();
+        if (v) restoreFromString(v);
+      });
+
+      apply();
+    </script>
+    
+  </body>
 </html>
