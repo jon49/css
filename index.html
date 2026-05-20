@@ -42,51 +42,9 @@
     <link rel="stylesheet" href="css/34-reduce-motion.css" />
 
     <style>
-      :root {
-        --accent-h: 84;
-        --accent-c: 0.18;
-        --accent-l: 0.83;
-      }
-
-      /* Light-mode primary palette derived from --accent-h / --accent-c. */
-      [data-theme="light"],
-      :root:has(#theme input[value="light"]:checked),
-      :root:not([data-theme="dark"]):not(:has(#theme input[value="dark"]:checked)),
-      :host(:not([data-theme="dark"])) {
-        --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
-        --pico-primary: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h));
-        --pico-primary-hover: oklch(calc(var(--accent-l) - 0.42) calc(var(--accent-c) * 0.55) var(--accent-h));
-        --pico-primary-hover-background: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
-        --pico-primary-focus: oklch(calc(var(--accent-l) - 0.23) var(--accent-c) var(--accent-h) / 0.5);
-        --pico-primary-underline: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h) / 0.5);
-        --pico-primary-inverse: #000;
-      }
-
-      /* System-preference auto-dark, suppressed when a #theme input forces light. */
-      @media only screen and (prefers-color-scheme: dark) {
-        :root:not([data-theme]):not(:has(#theme input[value="light"]:checked)):not(:has(#theme input[value="dark"]:checked)),
-        :host(:not([data-theme])) {
-          --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
-          --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
-          --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
-          --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
-          --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
-          --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
-          --pico-primary-inverse: #000;
-        }
-      }
-
-      /* Explicit dark via data-theme or via a #theme input. */
-      [data-theme="dark"],
-      :root:has(#theme input[value="dark"]:checked) {
-        --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
-        --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
-        --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
-        --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
-        --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
-        --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
-        --pico-primary-inverse: #000;
-      }
+      /* The primary palette is derived from --accent-h / --accent-c /
+         --accent-l entirely in css/02-color-schemes.css. The picker just
+         updates those three variables on :root (see apply() below). */
 
       #theme {
         display: inline-flex;
@@ -386,9 +344,9 @@
                 id="accent-hex"
                 type="text"
                 value="#ffbf00"
-                placeholder="#rrggbb or rgb(r,g,b)"
+                placeholder="#rrggbb, rgb(r,g,b) or oklch(l c h)"
                 spellcheck="false"
-                aria-label="Hex or RGB"
+                aria-label="Hex, RGB or OKLCH"
               />
             </div>
 
@@ -444,7 +402,8 @@
           <h3>Download CSS</h3>
           <p>
             Pick the sections you want; the download concatenates them in
-            order, with your chosen color baked in at the top. A config
+            order, with your chosen color baked in at the end so it
+            overrides Pico's defaults. A config
             comment is written into the file — paste that line into
             <em>Restore</em> later to rebuild this exact selection, then tweak
             from there.
@@ -732,6 +691,23 @@
         if (m) return { r: +m[1], g: +m[2], b: +m[3] };
         return null;
       }
+      // Parse an oklch() string into raw L / C / H. Lightness and chroma may
+      // be given as percentages; an optional "/ alpha" is ignored.
+      function parseOklch(str) {
+        const m = str
+          .trim()
+          .match(
+            /^oklch\(\s*([\d.]+)(%?)\s+([\d.]+)(%?)\s+([\d.]+)(?:deg)?\s*(?:\/\s*[\d.]+%?\s*)?\)$/i,
+          );
+        if (!m) return null;
+        let L = parseFloat(m[1]);
+        if (m[2]) L /= 100;
+        let C = parseFloat(m[3]);
+        if (m[4]) C = (C / 100) * 0.4; // % is relative to a 0.4 reference
+        const H = ((parseFloat(m[5]) % 360) + 360) % 360;
+        if (![L, C, H].every(Number.isFinite)) return null;
+        return { L, C, H };
+      }
 
       const root = document.documentElement;
       const wheel = document.getElementById("accent-wheel");
@@ -844,12 +820,26 @@
         colorInput.value = hex;
         hexInput.value = hex;
       }
+      // Set the palette straight from an oklch() value, keeping its L/C/H
+      // precision rather than round-tripping through 8-bit RGB.
+      function fromOklch(o) {
+        if (!o) return;
+        hue = o.H;
+        chroma = Math.min(0.3, Math.max(0, o.C));
+        lightness = Math.min(1, Math.max(0, o.L));
+        apply({ syncColorInputs: false });
+        const { r, g, b } = oklchToRgb(lightness, chroma, hue);
+        colorInput.value = toHex(r, g, b);
+      }
       colorInput.addEventListener("input", (e) =>
         fromRgb(parseColor(e.target.value)),
       );
-      hexInput.addEventListener("change", (e) =>
-        fromRgb(parseColor(e.target.value)),
-      );
+      hexInput.addEventListener("change", (e) => {
+        const v = e.target.value.trim();
+        const oklch = parseOklch(v);
+        if (oklch) fromOklch(oklch);
+        else fromRgb(parseColor(v));
+      });
 
       // Restore previous pick.
       try {
@@ -973,46 +963,14 @@
         selectAll.checked = sectionBoxes().every((cb) => cb.checked);
       });
 
-      // The accent-color theme block, with the current H/C/L baked in. Kept as
-      // var()-based rules so the downloaded file stays editable.
+      // The accent-color theme block. 02-color-schemes.css derives the whole
+      // --pico-primary* palette (light and dark) from these three variables,
+      // so the builder only needs to bake in the chosen H/C/L.
       function buildThemeCss(h, c, l) {
         return `:root {
   --accent-h: ${(+h).toFixed(2)};
   --accent-c: ${(+c).toFixed(4)};
   --accent-l: ${(+l).toFixed(4)};
-}
-
-[data-theme="light"],
-:root:not([data-theme="dark"]) {
-  --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
-  --pico-primary: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h));
-  --pico-primary-hover: oklch(calc(var(--accent-l) - 0.42) calc(var(--accent-c) * 0.55) var(--accent-h));
-  --pico-primary-hover-background: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
-  --pico-primary-focus: oklch(calc(var(--accent-l) - 0.23) var(--accent-c) var(--accent-h) / 0.5);
-  --pico-primary-underline: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h) / 0.5);
-  --pico-primary-inverse: #000;
-}
-
-@media only screen and (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
-    --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
-    --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
-    --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
-    --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
-    --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
-    --pico-primary-inverse: #000;
-  }
-}
-
-[data-theme="dark"] {
-  --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
-  --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
-  --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
-  --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
-  --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
-  --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
-  --pico-primary-inverse: #000;
 }
 `;
       }
@@ -1039,18 +997,30 @@
             .toISOString()
             .slice(0, 10)} — paste the line above into the Restore field ` +
           `to rebuild this selection. */\n`;
+        // Emitted last so it overrides the hardcoded --pico-primary* values
+        // in 02-color-schemes.css (same selectors, so later wins).
         const theme =
-          "/* ===== theme (accent color) ===== */\n" +
+          "/* ===== theme (accent color) — overrides 02-color-schemes ===== */\n" +
           buildThemeCss(hue, chroma, lightness);
         const parts = await Promise.all(
           chosen.map(async (cb) => {
             const res = await fetch(cb.value);
             if (!res.ok) throw new Error("Could not fetch " + cb.value);
-            const text = (await res.text()).trim();
-            return `/* ===== ${cb.value} ===== */\n` + text;
+            let text = (await res.text()).trim();
+            // @charset is only valid as the very first thing in a file. Strip
+            // it from individual sections — it is re-emitted once at the top.
+            text = text.replace(/^@charset\s+["'][^"']*["'];[ \t]*\r?\n?/i, "");
+            return `/* ===== ${cb.value} ===== */\n` + text.trim();
           }),
         );
-        return [header, theme, ...parts].join("\n\n") + "\n";
+        // @charset must be byte 0 — before even the header comment. The theme
+        // block goes last so its accent palette wins the cascade over the
+        // hardcoded primary colors in 02-color-schemes.css.
+        return (
+          '@charset "UTF-8";\n\n' +
+          [header, ...parts, theme].join("\n\n") +
+          "\n"
+        );
       }
 
       downloadBtn.addEventListener("click", async () => {

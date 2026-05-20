@@ -1,6 +1,16 @@
 /**
  * Color schemes
  */
+/* Accent color the whole primary palette is derived from. Override
+   --accent-h / --accent-c / --accent-l (the builder's theme block does
+   exactly this) to recolor every --pico-primary* role at once. */
+:root,
+:host {
+  --accent-h: 84;
+  --accent-c: 0.18;
+  --accent-l: 0.83;
+}
+
 /* Light vars apply when:
    - data-theme=light is set, OR
    - a #theme input with value=light is checked, OR
@@ -15,15 +25,15 @@
   --pico-text-selection-color: rgba(183, 136, 0, 0.25);
   --pico-muted-color: #646b79;
   --pico-muted-border-color: rgb(231, 234, 239.5);
-  --pico-primary: #876400;
-  --pico-primary-background: #ffbf00;
+  --pico-primary: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h));
+  --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
   --pico-primary-border: var(--pico-primary-background);
-  --pico-primary-underline: rgba(135, 100, 0, 0.5);
-  --pico-primary-hover: #694d00;
-  --pico-primary-hover-background: #e8ae01;
+  --pico-primary-underline: oklch(calc(var(--accent-l) - 0.33) calc(var(--accent-c) * 0.72) var(--accent-h) / 0.5);
+  --pico-primary-hover: oklch(calc(var(--accent-l) - 0.42) calc(var(--accent-c) * 0.55) var(--accent-h));
+  --pico-primary-hover-background: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
   --pico-primary-hover-border: var(--pico-primary-hover-background);
   --pico-primary-hover-underline: var(--pico-primary-hover);
-  --pico-primary-focus: rgba(183, 136, 0, 0.5);
+  --pico-primary-focus: oklch(calc(var(--accent-l) - 0.23) var(--accent-c) var(--accent-h) / 0.5);
   --pico-primary-inverse: #000;
   --pico-secondary: #5d6b89;
   --pico-secondary-background: #525f7a;
@@ -149,15 +159,15 @@
     --pico-text-selection-color: rgba(199, 148, 0, 0.1875);
     --pico-muted-color: #7b8495;
     --pico-muted-border-color: #202632;
-    --pico-primary: #c79400;
-    --pico-primary-background: #ffbf00;
+    --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
+    --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
     --pico-primary-border: var(--pico-primary-background);
-    --pico-primary-underline: rgba(199, 148, 0, 0.5);
-    --pico-primary-hover: #e8ae01;
-    --pico-primary-hover-background: #fecc63;
+    --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
+    --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
+    --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
     --pico-primary-hover-border: var(--pico-primary-hover-background);
     --pico-primary-hover-underline: var(--pico-primary-hover);
-    --pico-primary-focus: rgba(199, 148, 0, 0.375);
+    --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
     --pico-primary-inverse: #000;
     --pico-secondary: #969eaf;
     --pico-secondary-background: #525f7a;
@@ -288,15 +298,15 @@
   --pico-text-selection-color: rgba(199, 148, 0, 0.1875);
   --pico-muted-color: #7b8495;
   --pico-muted-border-color: #202632;
-  --pico-primary: #c79400;
-  --pico-primary-background: #ffbf00;
+  --pico-primary: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h));
+  --pico-primary-background: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
   --pico-primary-border: var(--pico-primary-background);
-  --pico-primary-underline: rgba(199, 148, 0, 0.5);
-  --pico-primary-hover: #e8ae01;
-  --pico-primary-hover-background: #fecc63;
+  --pico-primary-underline: oklch(calc(var(--accent-l) - 0.17) calc(var(--accent-c) * 0.85) var(--accent-h) / 0.5);
+  --pico-primary-hover: oklch(calc(var(--accent-l) - 0.06) var(--accent-c) var(--accent-h));
+  --pico-primary-hover-background: oklch(calc(var(--accent-l) + 0.03) calc(var(--accent-c) * 0.85) var(--accent-h));
   --pico-primary-hover-border: var(--pico-primary-hover-background);
   --pico-primary-hover-underline: var(--pico-primary-hover);
-  --pico-primary-focus: rgba(199, 148, 0, 0.375);
+  --pico-primary-focus: oklch(calc(var(--accent-l) - 0.17) var(--accent-c) var(--accent-h) / 0.375);
   --pico-primary-inverse: #000;
   --pico-secondary: #969eaf;
   --pico-secondary-background: #525f7a;
